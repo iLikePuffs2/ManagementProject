@@ -1,8 +1,10 @@
 package com.yizhi.student.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Autowired
 	private StudentInfoDao studentInfoDao;
-	
+
 	@Override
 	public StudentInfoDO get(Integer id){
 		System.out.println("======service层中传递过来的id参数是：" + id + "======");
@@ -29,7 +31,18 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
 	@Override
 	public List<StudentInfoDO> list(Map<String, Object> map){
-		return studentInfoDao.list(map);
+		int currPage = Integer.parseInt((String) map.get("currPage"));
+		int pageSize = Integer.parseInt((String) map.get("pageSize"));
+		String name = (String) map.get("name");
+		String tocollegeId = (String) map.get("tocollegeId");
+		String tomajorId = (String) map.get("tomajorId");
+		String classId = (String) map.get("classId");
+
+		int start = (currPage - 1) * pageSize;
+
+		List<StudentInfoDO> list = studentInfoDao.list(start, pageSize, name, tocollegeId, tomajorId, classId);
+
+		return list;
 	}
 
 	//"===================================================================================="
@@ -39,25 +52,27 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 	public int count(Map<String, Object> map){
 		return studentInfoDao.count(map);
 	}
-	
+
 	@Override
 	public int save(StudentInfoDO studentInfo){
 		return studentInfoDao.save(studentInfo);
 	}
-	
+
 	@Override
 	public int update(StudentInfoDO studentInfo){
 		return studentInfoDao.update(studentInfo);
 	}
-	
+
 	@Override
 	public int remove(Integer id){
 		return studentInfoDao.remove(id);
 	}
-	
+
 	@Override
 	public int batchRemove(Integer[] ids){
-		return studentInfoDao.batchRemove(ids);
+		//将ids转为List
+		List<Integer> list = Arrays.asList(ids);
+		return studentInfoDao.batchRemove(list);
 	}
-	
+
 }

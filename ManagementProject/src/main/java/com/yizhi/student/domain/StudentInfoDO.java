@@ -10,14 +10,14 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 生基础信息表
- * 
+ *
  * @author dunhf
  * @email 499345515@qq.com
  * @date 2019-08-01 09:45:46
  */
 public class StudentInfoDO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	//主键
 	private Integer id;
 	//学号
@@ -71,6 +71,8 @@ public class StudentInfoDO implements Serializable {
 	private Date editTime;
 	//修改人
 	private Integer editUserid;
+
+
 
 	/**
 	 * 设置：主键
